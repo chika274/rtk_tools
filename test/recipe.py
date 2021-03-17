@@ -113,7 +113,7 @@ def cb_copy(n):
     rospy.logerr("Recipe:Copy To dir exist RecipeName='%s'", to_name)
   else:
     func_ret = set_recipe(to_name, n)
-    commands.getoutput('cp -a '
+    subprocess.getoutput('cp -a '
                        + dirpath + '/' + from_name + ' '
                        + dirpath + '/' + to_name)
     massage = (exec_item["name"] + ' ' + MSG_TBL["ok"] + '\n'
@@ -266,7 +266,7 @@ except Exception as e:
 dictlib.merge(Config,parse_argv(sys.argv))
 
 dirpath = Config["dump_prefix"]
-thispath = commands.getoutput("rospack find rtk_tools")
+thispath = subprocess.getoutput("rospack find rtk_tools")
 
 buttons = []
 entrys = dict()

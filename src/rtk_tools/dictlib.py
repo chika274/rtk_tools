@@ -5,7 +5,7 @@ def merge(DCT,dct):
     if (k in DCT and isinstance(DCT[k], dict) and isinstance(dct[k], dict)):
       merge(DCT[k],dct[k])
     else:
-      DCT[k]=dct[k]
+     DCT[k]=dct[k]
 
 def cross(DCT,dct):
   for k,v in DCT.items():

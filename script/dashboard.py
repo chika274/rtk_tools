@@ -138,13 +138,13 @@ def cb_save_as():
   if ret != "":
     dir=re.sub(r".*"+Config["recipe"]["dir"],"",ret)
     recipe=dir.replace("/","")
-    commands.getoutput("cp -a "+dirpath+"/"+RecipeName+" "+dirpath+"/"+recipe)
+    subprocess.getoutput("cp -a "+dirpath+"/"+RecipeName+" "+dirpath+"/"+recipe)
     RecipeName=recipe
     Param["recipe"]=RecipeName
     rospy.set_param("/dashboard",Param)
     wRecipe.delete(0,tk.END)
     wRecipe.insert(0,Param["recipe"])
-    commands.getoutput("rm "+linkpath+";ln -s "+dirpath+"/"+RecipeName+" "+linkpath)
+    subprocess.getoutput("rm "+linkpath+";ln -s "+dirpath+"/"+RecipeName+" "+linkpath)
  
 ####launch manager############
 def cb_run(n):
@@ -378,7 +378,7 @@ if "load" in Config:
       lambda loader, node: OrderedDict(loader.construct_pairs(node)))
   try:
     conf=yaml.load(file(yamlpath))
-    commands.getoutput("rosparam load "+yamlpath)
+    subprocess.getoutput("rosparam load "+yamlpath)
   except:
     conf={}
   try:
@@ -395,7 +395,7 @@ if "load" in Config:
     yamlpath=thispath+"/../"+Config["load"]
     try:
       conf=yaml.load(file(yamlpath))
-      commands.getoutput("rosparam load "+yamlpath)
+      subprocess.getoutput("rosparam load "+yamlpath)
     except:
       conf={}
     try:
@@ -457,13 +457,13 @@ copyicon=tk.PhotoImage(file=iconpath+Config["icon"]["copy"])
 redrawicon=tk.PhotoImage(file=iconpath+Config["icon"]["redraw"])
 tk.Button(root,image=logoicon,bd=0,background=bgcolor,highlightthickness=0,command=cb_mbox_pop).pack(side='left',anchor='nw',padx=(0,0))
 if "recipe" in Config:
-  ln=commands.getoutput("ls -l "+linkpath)
+  ln=subprocess.getoutput("ls -l "+linkpath)
   if "->" in ln:
     dst=re.sub(r".*->","",ln)
     RecipeName=re.sub(r".*/","",dst)
     Param["recipe"]=RecipeName
     rospy.set_param("/dashboard",Param)
-  commands.getoutput("rosparam load "+dirpath+"/"+RecipeName+"/param.yaml")
+  subprocess.getoutput("rosparam load "+dirpath+"/"+RecipeName+"/param.yaml")
   tk.Label(root,image=recipeicon,bd=0,background=bgcolor).pack(side='left',fill='y',anchor='e',padx=(10,0))
   wRecipe=tk.Entry(root,font=normalfont,width=10)
   wRecipe.pack(side='left',fill='y')
